@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Quanly_quannet" Class="MasterDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=MSI;Initial Catalog=Quanly_quannet;Integrated Security=True;Connect Timeout=30;TrustServerCertificate=False" SettingsObjectName="Dev.Properties.Settings" SettingsPropertyName="Quanly_quannetConnectionString1" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Category" Member="Categories">
+    <Type Name="Category">
+      <Column Name="categoryName" Type="System.String" DbType="NVarChar(60) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Category_Menu" Member="Menus" ThisKey="categoryName" OtherKey="categoryName" Type="Menu" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Staff" Member="Staffs">
+    <Type Name="Staff">
+      <Column Name="staffID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="NVarChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="dob" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="foundedDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="phoneNumber" Type="System.String" DbType="VarChar(12) NOT NULL" CanBeNull="false" />
+      <Column Name="staffAddress" Type="System.String" DbType="NVarChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="sEmail" Type="System.String" DbType="VarChar(40) NOT NULL" CanBeNull="false" />
+      <Column Name="indentity_number" Type="System.String" DbType="VarChar(12) NOT NULL" CanBeNull="false" />
+      <Column Name="avatar" Type="System.Data.Linq.Binary" DbType="Image" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="username" Type="System.String" DbType="NVarChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="password" Type="System.String" DbType="NVarChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="status" Type="System.String" DbType="NVarChar(12) NOT NULL" CanBeNull="false" />
+      <Column Name="role" Type="System.String" DbType="VarChar(8) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.client" Member="clients">
+    <Type Name="client">
+      <Column Name="idClient" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="GroupName" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="clientName" Type="System.String" DbType="Char(20)" CanBeNull="true" />
+      <Column Name="status" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="note" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="IsExit" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="client_Login_Customer" Member="Login_Customers" ThisKey="idClient" OtherKey="idClient" Type="Login_Customer" />
+      <Association Name="client_Order_Detail" Member="Order_Details" ThisKey="idClient" OtherKey="idClient" Type="Order_Detail" />
+      <Association Name="group_client_client" Member="group_client" ThisKey="GroupName" OtherKey="GroupName" Type="group_client" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.group_client" Member="group_clients">
+    <Type Name="group_client">
+      <Column Name="GroupName" Type="System.String" DbType="NVarChar(30) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="description" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="price" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="group_client_client" Member="clients" ThisKey="GroupName" OtherKey="GroupName" Type="client" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Menu" Member="Menus">
+    <Type Name="Menu">
+      <Column Name="idMenu" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="categoryName" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="name" Type="System.String" DbType="NVarChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="sale_price" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="avatar" Type="System.Data.Linq.Binary" DbType="Image" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="Menu_Order_Detail" Member="Order_Details" ThisKey="idMenu" OtherKey="idMenu" Type="Order_Detail" />
+      <Association Name="Category_Menu" Member="Category" ThisKey="categoryName" OtherKey="categoryName" Type="Category" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Login_Customer" Member="Login_Customers">
+    <Type Name="Login_Customer">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="idCus" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="idClient" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="startTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="client_Login_Customer" Member="client" ThisKey="idClient" OtherKey="idClient" Type="client" IsForeignKey="true" />
+      <Association Name="Customer_Information_Login_Customer" Member="Customer_Information" ThisKey="idCus" OtherKey="idCus" Type="Customer_Information" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Order_Detail" Member="Order_Details">
+    <Type Name="Order_Detail">
+      <Column Name="idDetail" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="idClient" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="idMenu" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="quantity" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="comment" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="idCus" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="amount" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="IsOrder" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="client_Order_Detail" Member="client" ThisKey="idClient" OtherKey="idClient" Type="client" IsForeignKey="true" />
+      <Association Name="Menu_Order_Detail" Member="Menu" ThisKey="idMenu" OtherKey="idMenu" Type="Menu" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Customer_Information" Member="Customer_Informations">
+    <Type Name="Customer_Information">
+      <Column Name="idCus" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="NVarChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="dob" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="phoneNumber" Type="System.String" DbType="VarChar(12) NOT NULL" CanBeNull="false" />
+      <Column Name="cusAddress" Type="System.String" DbType="NVarChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="cEmail" Type="System.String" DbType="VarChar(40) NOT NULL" CanBeNull="false" />
+      <Column Name="indentity_number" Type="System.String" DbType="VarChar(12) NOT NULL" CanBeNull="false" />
+      <Column Name="username" Type="System.String" DbType="NVarChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="password" Type="System.String" DbType="NVarChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="currentMoney" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Association Name="Customer_Information_Login_Customer" Member="Login_Customers" ThisKey="idCus" OtherKey="idCus" Type="Login_Customer" />
+    </Type>
+  </Table>
+  <Function Name="dbo.ListClient" Method="ListClient">
+    <ElementType Name="ListClientResult">
+      <Column Name="STT" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="idClient" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="idCus" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="clientName" Type="System.String" DbType="Char(20)" CanBeNull="true" />
+      <Column Name="GroupName" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="statuss" Type="System.String" DbType="NVarChar(7) NOT NULL" CanBeNull="false" />
+      <Column Name="CusName" Type="System.String" DbType="NVarChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="currentMoney" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="startTime" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="TimePlay" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="[_Money]" Member="_Money" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="currentTime" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.updatecurrentMoney" Method="updatecurrentMoney">
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.funConvertTime" Method="funConvertTime" IsComposable="true">
+    <Parameter Name="seconds" Type="System.Int32" DbType="Int" />
+    <Return Type="System.String" />
+  </Function>
+  <Function Name="dbo.funCheckPrice" Method="funCheckPrice" IsComposable="true">
+    <Parameter Name="IdClient" Parameter="idClient" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Decimal" />
+  </Function>
+  <Function Name="dbo.ListMenu" Method="ListMenu">
+    <ElementType Name="ListMenuResult">
+      <Column Name="idMenu" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ckChon" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="categoryName" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="name" Type="System.String" DbType="NVarChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="sale_price" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SoLuong" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ThanhTien" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.funGetdate" Method="funGetdate" IsComposable="true">
+    <Return Type="System.DateTime" />
+  </Function>
+  <Function Name="dbo.updateNotification" Method="updateNotification">
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.getNotification" Method="getNotification">
+    <ElementType Name="getNotificationResult">
+      <Column Name="STT" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="categoryName" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="name" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="sale_price" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SoLuong" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ThanhTien" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="clientName" Type="System.String" DbType="Char(20)" CanBeNull="true" />
+      <Column Name="CusName" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.getRevenue" Method="getRevenue">
+    <ElementType Name="getRevenueResult">
+      <Column Name="STT" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="categoryName" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="name" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="sale_price" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SoLuong" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ThanhTien" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="clientName" Type="System.String" DbType="Char(20)" CanBeNull="true" />
+      <Column Name="CusName" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+</Database>
